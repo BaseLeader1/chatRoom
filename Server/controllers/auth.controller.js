@@ -1,4 +1,6 @@
 import User from "../models/user.js";
+import jwt from "jsonwebtoken";
+
 export const signup= async (req, res) => {
   const { username, password } = req.body;
 
@@ -44,11 +46,17 @@ export const login =  async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
-export const logout = (req, res) => {
+export const logout = async(req, res) => {
   const { username } = req.body;
 
   try {
-    
+    const user = await User.findOne({ username });
+    if(user)
+    {
+      user.isConnected=false;
+      await user.save;
+      res.status(200).json({ message: "User logged out" });
+    }
   }
   catch (error) {
     console.error(error);
