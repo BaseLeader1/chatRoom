@@ -1,25 +1,32 @@
-import React from 'react';
-import { UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
+import React from "react";
+import {
+  UploadOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Layout, Menu, theme } from "antd";
 const { Header, Content, Footer, Sider } = Layout;
-const items = [UserOutlined, VideoCameraOutlined, UploadOutlined, UserOutlined].map(
-  (icon, index) => ({
-    key: String(index + 1),
-    icon: React.createElement(icon),
-    label: `nav ${index + 1}`,
-  }),
-);
-import axios from 'axios';
+const items = [
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+  UserOutlined,
+].map((icon, index) => ({
+  key: String(index + 1),
+  icon: React.createElement(icon),
+  label: `nav ${index + 1}`,
+}));
+import axios from "axios";
+import { MessageBox } from "react-chat-elements";
 
-const showUsers=async ()=>{
-  try{
-    const users=await axios.get('/api/auth/users');
-  }
-  catch(err){
-    console.log(err);
-  }
-}
-const App = () => {
+const Room = () => {
+  const showUsers = async () => {
+    try {
+      const users = await axios.get("/api/auth/users");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -36,7 +43,12 @@ const App = () => {
         }}
       >
         <div className="demo-logo-vertical" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} />
+        <Menu
+          theme="dark"
+          mode="inline"
+          defaultSelectedKeys={["4"]}
+          items={items}
+        />
       </Sider>
       <Layout>
         <Header
@@ -45,25 +57,27 @@ const App = () => {
             background: colorBgContainer,
           }}
         />
-        <Content
-          style={{
-            margin: '24px 16px 0',
-          }}
-        >
-          <div
-            style={{
-              padding: 24,
-              minHeight: 360,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            content
-          </div>
+        <Content>
+          <MessageBox
+            position="left"
+            title="Burhan"
+            type="text"
+            text="Hi there !"
+            date={new Date()}
+            replyButton={true}
+          />
+
+          <MessageBox
+            position="right"
+            title="Emre"
+            type="meetingLink"
+            text="Click to join the meeting"
+            date={new Date()}
+          />
         </Content>
         <Footer
           style={{
-            textAlign: 'center',
+            textAlign: "center",
           }}
         >
           Ant Design ©{new Date().getFullYear()} Created by Ant UED
@@ -72,4 +86,4 @@ const App = () => {
     </Layout>
   );
 };
-export default index;
+export default Room;
