@@ -9,12 +9,16 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = async () => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
     try {
       const response = await axios.post('/api/auth/login', { username, password });
+      console.log("Signin successful:", response.data);
+
       // Handle successful login (e.g., saving token to localStorage)
     } catch (error) {
       setError(error.response.data.message);
+      console.error("Signin failed:", error.response.data);
     }
   };
 
@@ -26,8 +30,8 @@ const Login = () => {
       {error && <p className="error-message">{error}</p>}
       <input type="text" placeholder="Username" value={username} onInput={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" value={password} onInput={(e) => setPassword(e.target.value)} />
-       <a href="/login"><button class="bn632-hover bn22">login</button></a>
-        <a href="/signup"><button class="bn632-hover bn22">signup</button></a>
+       <a href="/room"><button onClick={handleLogin} className="bn632-hover bn22">login</button></a>
+        <a href="/signup"><button className="bn632-hover bn22">signup</button></a>
 </div>
 
     </div>

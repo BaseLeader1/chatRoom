@@ -9,12 +9,15 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleSignup = async () => {
+  const handleSignup = async (e) => {
+   e.preventDefault();
     try {
       const response = await axios.post('/api/auth/signup', { username, password });
+      console.log("Signup successful:", response.data);
       // Handle successful registration
     } catch (error) {
       setError(error.response.data.message);
+      console.error("Signup failed:", error.response.data);
     }
   };
 
@@ -25,10 +28,10 @@ const Signup = () => {
       {error && <p className="error-message">{error}</p>}
       <input type="text" placeholder="Username" value={username} onInput={(e) => setUsername(e.target.value)} />
       <input type="password" placeholder="Password" value={password} onInput={(e) => setPassword(e.target.value)} />
-      <div className="buttons">
-      <a href="/signup"><button class="bn632-hover bn22">signup</button></a>
-      <a href="/login"><button class="bn632-hover bn22">login</button></a>
-      </div>
+      <a href="/signup"><button onClick={handleSignup} className="bn632-hover bn22">signup</button></a>
+
+      <a href="/login"><button className="bn632-hover bn22">login</button></a>
+
     </div>
   );
 };
