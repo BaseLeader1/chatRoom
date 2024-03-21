@@ -1,37 +1,52 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu, theme } from "antd";
-const { Header, Content, Footer, Sider } = Layout;
-const items = [
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
-  UserOutlined,
-].map((icon, index) => ({
-  key: String(index + 1),
-  icon: React.createElement(icon),
-  label: `nav ${index + 1}`,
-}));
 import axios from "axios";
-import { MessageBox } from "react-chat-elements";
+import { MessageBox, Input } from "react-chat-elements";
+import "./style.css";
+
+const { Header, Content, Footer, Sider } = Layout;
 
 const Room = () => {
-  const showUsers = async () => {
+  const items = [
+    UserOutlined,
+    VideoCameraOutlined,
+    UploadOutlined,
+    UserOutlined,
+  ].map((icon, index) => ({
+    key: String(index + 1),
+    icon: React.createElement(icon),
+    label: `nav ${index + 1}`,
+  }));
+
+  const [connectedUsers, setConnectedUsers] = useState([]);
+  const [disconnectedUsers, setDisconnectedUsers] = useState([]);
+
+  const fetchUsers = async () => {
     try {
-      const users = await axios.get("/api/auth/users");
-    } catch (err) {
-      console.log(err);
+      const connectedUsersResponse = await axios.get("/api/auth/online");
+      const disconnectedUsersResponse = await axios.get("/api/auth/offline");
+
+      setConnectedUsers(connectedUsersResponse.data.users);
+      setDisconnectedUsers(disconnectedUsersResponse.data.users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
   };
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+
+  useEffect(() => {
+    const intervalId = setInterval(fetchUsers, 5000); // Poll every 5 seconds
+    fetchUsers(); // Initial fetch
+
+    return () => clearInterval(intervalId); // Cleanup on unmount
+  }, []);
+
   return (
-    <Layout>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -42,46 +57,38 @@ const Room = () => {
           console.log(collapsed, type);
         }}
       >
-        <div className="demo-logo-vertical" />
-        <Menu
-          theme="dark"
-          mode="inline"
-          defaultSelectedKeys={["4"]}
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Header
-          style={{
-            padding: 0,
-            background: colorBgContainer,
-          }}
-        />
-        <Content>
-          <MessageBox
-            position="left"
-            title="Burhan"
-            type="text"
-            text="Hi there !"
-            date={new Date()}
-            replyButton={true}
-          />
+        <div className="logo" />
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]}>
+          {/* Display connected users */}
+          <div className="connected-users">
+            <h3>Connected Users:</h3>
+            {connectedUsers.map((user) => (
+              <Menu.Item key={user.id}>{user.name}</Menu.Item>
+            ))}
+          </div>
 
-          <MessageBox
-            position="right"
-            title="Emre"
-            type="meetingLink"
-            text="Click to join the meeting"
-            date={new Date()}
-          />
+          {/* Display disconnected users */}
+          <div className="disconnected-users">
+            <h3>Disconnected Users:</h3>
+            {disconnectedUsers.map((user) => (
+              <Menu.Item key={user.id}>{user.name}</Menu.Item>
+            ))}
+          </div>
+        </Menu>
+      </Sider>
+      <Layout className="site-layout">
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          {/* NavBar content here */}
+        </Header>
+        <Content style={{ margin: "0 16px" }}>
+          <div
+            className="site-layout-background"
+            style={{ padding: 24, minHeight: 360 }}
+          >
+            {/* Game or activity area */}
+            {/* Chat interface */}
+          </div>
         </Content>
-        <Footer
-          style={{
-            textAlign: "center",
-          }}
-        >
-          Ant Design ©{new Date().getFullYear()} Created by Ant UED
-        </Footer>
       </Layout>
     </Layout>
   );

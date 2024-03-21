@@ -31,22 +31,3 @@ const connect = () => {
 
 connect();
 
-io.on("connection", (socket) => {
-  console.log("New client connected");
-  
-  socket.on("login", (userId) => {
-    socket.join(userId); // Join room with userId
-    console.log(`User ${userId} logged in`);
-    io.emit("userLoggedIn", userId); // Emit event to all clients
-  });
-
-  socket.on("logout", (userId) => {
-    socket.leave(userId); // Leave room with userId
-    console.log(`User ${userId} logged out`);
-    io.emit("userLoggedOut", userId); // Emit event to all clients
-  });
-
-  socket.on("disconnect", () => {
-    console.log("Client disconnected");
-  });
-});

@@ -87,10 +87,19 @@ export const logout = async (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => {
+export const getOnlineUsers = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json({ users, message: "Users fetched" });
+    const users = await User.find(user.isConnected == true);
+    res.status(200).json({ users, message: "online Users fetched" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+export const getOffineUsers = async (req, res) => {
+  try {
+    const users = await User.find(user.isConnected == false);
+    res.status(200).json({ users, message: "offline Users fetched" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

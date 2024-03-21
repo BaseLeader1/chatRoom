@@ -18,7 +18,7 @@ const Signup = () => {
         password,
       });
       console.log("Signup successful:", response.data);
-      navigate("/singin");
+      navigate("/login");
       // Handle successful registration
     } catch (error) {
       setError(error.response.data.message);

@@ -39,16 +39,8 @@ input {
   color: white;
   font-weight: 300;
 }
-.buttons{
- 
- justify-content: center;
 
-}
-a{
-  display: flex;
-  justify-content: center;
-}
-h2{
+h2 {
   width: 250px;
   border-radius: 3px;
   font-family: "Source Sans Pro", sans-serif;
