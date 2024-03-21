@@ -1,7 +1,8 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
+import { io } from "../index.js"; // Import io instance from index.js
 
-export const signup= async (req, res) => {
+export const signup = async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -12,7 +13,7 @@ export const signup= async (req, res) => {
 
     const user = new User({
       username,
-      password
+      password,
     });
 
     await user.save();
@@ -45,6 +46,14 @@ export const login = async (req, res) => {
       username: user.username,
       token,
     });
+    io.on("connection", (socket) => {
+      console.log("New client connected");
+      socket.join(user._id); // Join room with userId
+      console.log(`User ${user._id} logged in`);
+      io.emit("userLoggedIn", user._id); // Emit event to all clients
+    });
+
+    // Update user's isConnected status
     user.isConnected = true;
     await user.save();
   } catch (error) {
@@ -53,13 +62,19 @@ export const login = async (req, res) => {
   }
 };
 
-
 export const logout = async (req, res) => {
   const { username } = req.body;
 
   try {
     const user = await User.findOne({ username });
     if (user) {
+      io.on("disconnect", (socket) => {
+        console.log("Client disconnected");
+        socket.leave(user._id); // Leave room with userId
+        console.log(`User ${user._id} logged out`);
+        io.emit("userLoggedOut", user._id); // Emit event to all clients
+      });
+
       user.isConnected = false;
       await user.save(); // Call the save method to update the document
       res.status(200).json({ message: "User logged out" });
@@ -75,11 +90,9 @@ export const logout = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find();
-    res.status(200).json({users, message: "Users fetched" });
-    console.log
+    res.status(200).json({ users, message: "Users fetched" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
-
