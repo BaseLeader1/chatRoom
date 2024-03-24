@@ -44,7 +44,7 @@ export const login = async (req, res) => {
     res.status(200).json({
       _id: user._id,
       username: user.username,
-      token,
+      token
     });
     io.on("connection", (socket) => {
       console.log("New client connected");
@@ -89,17 +89,20 @@ export const logout = async (req, res) => {
 
 export const getOnlineUsers = async (req, res) => {
   try {
-    const users = await User.find(user.isConnected == true);
-    res.status(200).json({ users, message: "online Users fetched" });
+    const users = await User.find({ isConnected: true });
+
+    res.status(200).json({ users, message: "Online users fetched" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
   }
 };
-export const getOffineUsers = async (req, res) => {
+
+export const getOfflineUsers = async (req, res) => {
   try {
-    const users = await User.find(user.isConnected == false);
-    res.status(200).json({ users, message: "offline Users fetched" });
+    const users = await User.find({ isConnected: false });
+
+    res.status(200).json({ users, message: "Offline users fetched" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

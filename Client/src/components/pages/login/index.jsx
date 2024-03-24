@@ -17,7 +17,10 @@ const Login = () => {
       const response = await axios.post("/api/auth/login", {
         username,
         password,
+        token: ""
       });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
       console.log("Signin successful:", response.data);
       navigate("/room");
 
