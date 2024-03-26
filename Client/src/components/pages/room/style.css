@@ -26,27 +26,31 @@ body {
 .logo {
   background-color: var(--primary-color);
   padding: 10px;
-  font-size: 20px;
+  font-size: 24px;
   text-align: center;
+  color: var(--text-color);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 /* Sider styling */
 .ant-layout-sider {
-  background: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), #333333);
+  color: var(--text-color);
 }
 
 /* Menu styling */
 .ant-menu-dark {
-  background: var(--primary-color);
+  background: linear-gradient(90deg, var(--primary-color), #333333);
   border-right: none;
 }
 
 .ant-menu-item {
-  transition: background-color 0.3s;
+  transition: all 0.3s; /* Smooth transition for all properties */
 }
 
 .ant-menu-item:hover {
   background-color: var(--accent-color);
+  color: var(--text-color); /* Change text color on hover */
 }
 
 /* User status */
@@ -55,60 +59,58 @@ body {
   padding: 10px 0;
   text-align: center;
   position: relative;
+  color: var(--text-color);
+  font-size: 20px; /* Adjusted font size */
 }
 
 .connected-users h3::before,
 .disconnected-users h3::before {
   content: "";
   position: absolute;
-  left: 10px;
+  left: -30px;
   top: 50%;
   transform: translateY(-50%);
-  width: 12px;
-  height: 12px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  animation: pulse 1s infinite alternate;
-  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
 }
 
 .connected-users h3::before {
   background: var(--online-status);
-  
+  animation: pulse 1s infinite alternate;
 }
 
 .disconnected-users h3::before {
   background: var(--offline-status);
 }
 
-/* Content layout using grid */
-.site-layout-background {
-  background: var(--secondary-color);
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-gap: 16px;
-  padding: 24px;
+/* Sidebar styling */
+.ant-layout-sider {
+  background: linear-gradient(90deg, var(--primary-color), #333333);
+  color: var(--text-color);
+  overflow: hidden;
 }
 
-/* Chat and game area styling */
-/* Replace .chat-container and .game-container with actual class names */
-.chat-container,
-.game-container {
-  border: 1px solid var(--primary-color);
-  border-radius: 8px;
-  padding: 16px;
+/* Sidebar header */
+.ant-layout-sider .logo {
+  margin: 20px;
+  font-size: 28px;
+  text-align: center;
+  /* Add some padding for better visual separation */
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--text-color); /* Add border for visual separation */
 }
 
-/* Header styling */
-.site-layout-background .site-layout {
-  background: var(--primary-color);
-  padding: 12px 24px;
+/* Sidebar menu */
+.ant-layout-sider .ant-menu-dark .ant-menu-item,
+.ant-layout-sider .ant-menu-dark .ant-menu-submenu-title {
+  transition: all 0.3s ease-in-out;
 }
 
-/* Sample responsive design */
-@media (max-width: 768px) {
-  .site-layout-background {
-    grid-template-columns: 1fr; /* Stack on small screens */
-  }
+.ant-layout-sider .ant-menu-dark .ant-menu-item:hover,
+.ant-layout-sider .ant-menu-dark .ant-menu-submenu-title:hover {
+  background-color: var(--accent-color);
+  color: var(--text-color);
 }
 
 /* Custom scrollbar for sidebar */
@@ -122,28 +124,35 @@ body {
 }
 
 /* Status indicator colors */
-.online {
+.online::before {
+  content: "●";
   color: var(--online-status);
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
+  margin-right: 5px;
 }
 
-.offline {
+.offline::before {
+  content: "●";
   color: var(--offline-status);
-  font-size: 18px;
-  font-weight: bold;
-  text-align: center;
+  margin-right: 5px;
 }
 
 /* Animation for status indicator */
 @keyframes pulse {
   0% {
     transform: scale(1);
-    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
   }
   100% {
-    transform: scale(1.1);
-    opacity: 0.8;
+    transform: scale(1);
   }
+}
+
+/* Welcome message */
+.welcome-message {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 20px;
 }

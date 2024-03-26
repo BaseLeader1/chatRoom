@@ -1,27 +1,33 @@
+
 import { create } from "zustand";
-import FetchUsers from "../pages/fetchUsers/fetchUsers";
 
 const useUserStore = create((set) => ({
   user: null,
   isConnected: false,
-  connectedUser: null, // Add a property to store the connected user's information
-  login: (user) =>
+  connectedUser: null, // Initialize connectedUser here
+  connectedUsers: [],
+  disconnectedUsers: [],
+  authToken: '',
+
+  login: ({ connectedUsers, disconnectedUsers, user }) => {
     set({
-      user,
       isConnected: true,
-      connectedUser: user, // Store the connected user's information
-      authToken:
-        FetchUsers.connectedUsersResponse.data.users == user
-          ? authToken
-          : user.token,
-    }),
-  logout: () =>
-    set({
-      user: null,
-      isAuthenticated: false,
-      isConnected: false,
-      connectedUser: null,
-    }), // Reset connectedUser upon logout
+      connectedUsers,
+      disconnectedUsers,
+      connectedUser: user,
+    });
+  },
+
+  logout: () => set({
+    user: null,
+    isConnected: false,
+    connectedUser: null,
+    connectedUsers: [],
+    disconnectedUsers: [],
+    authToken: '',
+  }),
+
+  setConnectedUser: (user) => set({ connectedUser: user }),
 }));
 
 export default useUserStore;

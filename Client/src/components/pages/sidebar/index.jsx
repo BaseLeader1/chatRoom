@@ -6,8 +6,8 @@ const { Sider } = Layout;
 
 const Sidebar = () => {
   const { connectedUsers, disconnectedUsers } = useUserStore((state) => ({
-    connectedUsers: state.connectedUsers,
-    disconnectedUsers: state.disconnectedUsers,
+    connectedUsers: state.connectedUsers || [], 
+    disconnectedUsers: state.disconnectedUsers || [], 
   }));
 
   return (
