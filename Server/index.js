@@ -35,6 +35,6 @@ const connect = () => {
       console.error("Error connecting to MongoDB:", err.message);
       process.exit(1); // Exit the process if unable to connect to MongoDB
     });
-};
 
+};
 connect();

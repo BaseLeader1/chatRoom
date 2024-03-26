@@ -1,12 +1,12 @@
-// MessageInput.jsx
 import React from "react";
-import "./style.css"; // Import CSS styles
+import "./style.css"; 
+import MyButton from "../button";
 
 const MessageInput = () => {
+  
   const sendMessage = () => {
-    const message = document.getElementById('messageInput').value;
-    ChatSocketServer.sendMessage(message);
-    document.getElementById('messageInput').value = '';
+    console.log("Message sent!");
+    
   };
 
   return (
@@ -17,7 +17,7 @@ const MessageInput = () => {
         type="text"
         placeholder="Type your message here"
       />
-      <button className="send-button" onClick={sendMessage}>Send Message</button>
+     <MyButton content={<>&#10148; Send</>} onClick={sendMessage} />
     </div>
   );
 };

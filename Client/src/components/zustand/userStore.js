@@ -11,6 +11,7 @@ const useUserStore = create((set) => ({
 
   login: ({ connectedUsers, disconnectedUsers, user }) => {
     set({
+      user,
       isConnected: true,
       connectedUsers,
       disconnectedUsers,

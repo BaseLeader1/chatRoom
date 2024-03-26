@@ -52,15 +52,3 @@ h2 {
   color: white;
   font-weight: 300;
 }
-
-button {
-  appearance: none;
-  outline: 0;
-  background-color: white;
-  border: 0;
-  padding: 10px 15px;
-  color: #50a3a2;
-  border-radius: 3px;
-  width: 250px;
-  font-size: 18px;
-}

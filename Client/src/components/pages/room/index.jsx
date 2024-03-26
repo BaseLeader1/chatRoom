@@ -17,7 +17,7 @@ const Room = () => {
       <Sidebar />
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
-          <div className="welcome-message">Welcome, {connectedUser ? (connectedUser.name || 'User') : 'Guest'}!</div>
+        <div className="welcome-message">Welcome, {connectedUser ? (connectedUser.name || 'User') : 'Guest'}!</div>
         </Header>
         <Content style={{ margin: "0 16px" }}>
           <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
