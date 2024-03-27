@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MessageInput from "./MessageInput"; // Use your actual path for MessageInput
-import useUserStore from "../../zustand/userStore"; // Adjust the path to your useUserStore
+import { useUserStore, useUserName } from "../../zustand/userStore"; // Adjust the path to your useUserStore
 
 const ChatArea = ({ currentChat }) => {
   const { chats, sendMessage } = useUserStore((state) => ({

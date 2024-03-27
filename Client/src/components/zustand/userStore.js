@@ -1,6 +1,14 @@
-
 import { create } from "zustand";
-
+import axios from "axios";
+const correntUser =create ((set) => ({
+  useUserName:()=>set((state) => {
+    return {
+      userName: localStorage.getItem("currentUser").userName,
+    };
+  }),
+  userId:null
+  
+}))
 const useUserStore = create((set) => ({
   user: null,
   isConnected: false,
@@ -8,7 +16,7 @@ const useUserStore = create((set) => ({
   connectedUsers: [],
   disconnectedUsers: [],
   chats: {},
-  authToken: '',
+  authToken: "",
 
   login: ({ connectedUsers, disconnectedUsers, user }) => {
     set({
@@ -22,7 +30,7 @@ const useUserStore = create((set) => ({
 
   sendMessage: async (sender, receiver, content) => {
     try {
-      const response = await axios.post('/api/messages/send', {
+      const response = await axios.post("/api/messages/send", {
         sender,
         receiver,
         content,
@@ -30,27 +38,30 @@ const useUserStore = create((set) => ({
       if (response.status === 201) {
         set((state) => {
           const existingMessages = state.chats[receiver] || [];
-          return { 
-            chats: { 
-              ...state.chats, 
-              [receiver]: [...existingMessages, { sender, content, timestamp: new Date() }] 
-            }
+          return {
+            chats: {
+              ...state.chats,
+              [receiver]: [
+                ...existingMessages,
+                { sender, content, timestamp: new Date() },
+              ],
+            },
           };
         });
       }
     } catch (error) {
-      console.error('Failed to send message:', error);
-     
+      console.error("Failed to send message:", error);
     }
   },
-  logout: () => set({
-    user: null,
-    isConnected: false,
-    connectedUser: null,
-    connectedUsers: [],
-    disconnectedUsers: [],
-    authToken: '',
-  }),
+  logout: () =>
+    set({
+      user: null,
+      isConnected: false,
+      connectedUser: null,
+      connectedUsers: [],
+      disconnectedUsers: [],
+      authToken: "",
+    }),
 
   setConnectedUser: (user) => set({ connectedUser: user }),
 }));
