@@ -7,6 +7,7 @@ const useUserStore = create((set) => ({
   connectedUser: null, // Initialize connectedUser here
   connectedUsers: [],
   disconnectedUsers: [],
+  chats: {},
   authToken: '',
 
   login: ({ connectedUsers, disconnectedUsers, user }) => {
@@ -19,6 +20,29 @@ const useUserStore = create((set) => ({
     });
   },
 
+  sendMessage: async (sender, receiver, content) => {
+    try {
+      const response = await axios.post('/api/messages/send', {
+        sender,
+        receiver,
+        content,
+      });
+      if (response.status === 201) {
+        set((state) => {
+          const existingMessages = state.chats[receiver] || [];
+          return { 
+            chats: { 
+              ...state.chats, 
+              [receiver]: [...existingMessages, { sender, content, timestamp: new Date() }] 
+            }
+          };
+        });
+      }
+    } catch (error) {
+      console.error('Failed to send message:', error);
+     
+    }
+  },
   logout: () => set({
     user: null,
     isConnected: false,

@@ -1,17 +1,21 @@
-button {
+.custom-button {
   cursor: pointer;
-  width: auto;
-  height: auto;
+  width: 120px; 
+  height: 40px; 
   border-radius: 5px;
   border: 2px solid var(--main-color);
-  background-color: var(--bg-color);
+  background-color: #6eff9e; 
   box-shadow: 4px 4px var(--main-color);
   font-size: 17px;
   font-weight: 600;
   color: var(--font-color);
+  padding: 5px 10px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 10px 20px;
-  margin-bottom: 30em;
+}
+
+.custom-button:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);
 }
