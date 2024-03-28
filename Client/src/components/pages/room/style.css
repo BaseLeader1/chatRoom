@@ -156,3 +156,7 @@ body {
   text-align: center;
   margin-top: 0.1em;
 }
+
+.message-input-container {
+  margin-top: 200px;
+}

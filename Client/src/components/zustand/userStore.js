@@ -1,14 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
-const correntUser =create ((set) => ({
-  useUserName:()=>set((state) => {
-    return {
-      userName: localStorage.getItem("currentUser").userName,
-    };
-  }),
-  userId:null
-  
-}))
+
 const useUserStore = create((set) => ({
   user: null,
   isConnected: false,
