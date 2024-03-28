@@ -20,7 +20,7 @@ const Login = () => {
         token: ""
       });
       const token = response.data.token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", token); 
       console.log("Signin successful:", response.data);
       navigate("/room");
 

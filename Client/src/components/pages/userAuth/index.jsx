@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const UserAuth = () => {
   const [userData, setUserData] = useState(null);
@@ -10,12 +10,13 @@ const UserAuth = () => {
     const fetchData = async () => {
       try {
         // Get the user token from localStorage
-        const userToken = localStorage.getItem('userToken');
+        const userToken = localStorage.getItem("token");
+        console.log("userToken", userToken);
 
         // Make a GET request to a protected route on the server
-        const response = await axios.get('/api/profile', {
+        const response = await axios.get("/api/auth/profile", {
           headers: {
-            Authorization: userToken, // Include the user token in the request headers
+            Authorization: `Bearer ${userToken}`, // Include the Bearer token in the request headers
           },
         });
 
@@ -23,9 +24,9 @@ const UserAuth = () => {
         setUserData(response.data);
         console.log(userData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error("Error fetching user data:", error);
         // Set error state if request fails
-        setError('Error fetching user data');
+        setError("Error fetching user data");
       }
     };
 
@@ -42,7 +43,9 @@ const UserAuth = () => {
 
   return (
     <div>
-      <h1>Hello:{userData.username}</h1>
+      <h1 style={{ textAlign: "center", color: "white" }}>
+        Hello: {userData.username}
+      </h1>
     </div>
   );
 };
