@@ -1,8 +1,14 @@
 import User from "../models/user.js";
 import { io } from "../index.js"; // Import io instance from index.js
-export const logout = async (req, res) => {
-  const { username } = req.body;
-
+import { getUserFromToken } from "./getUserFromToken.js";
+const Logout = async (req, res) => {
+  console.log("Logout request received");
+  console.log("request header:"+req.header);
+  const token = req.header("authorization")?.split(" ")[1];
+  console.log("token inside logout:"+token);
+  const user = await getUserFromToken(token);
+  const username = user.username;
+  console.log(username);
   try {
     const user = await User.findOne({ username });
     if (user) {
@@ -24,3 +30,5 @@ export const logout = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+export default Logout;

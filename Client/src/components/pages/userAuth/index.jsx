@@ -14,7 +14,7 @@ const UserAuth = () => {
         console.log("userToken", userToken);
 
         // Make a GET request to a protected route on the server
-        const response = await axios.get("/api/auth/profile", {
+        const response = await axios.get("/api/auth/getuser", {
           headers: {
             Authorization: `Bearer ${userToken}`, // Include the Bearer token in the request headers
           },

@@ -158,5 +158,21 @@ body {
 }
 
 .message-input-container {
-  margin-top: 300px;
+  position: fixed;
+  bottom: 0;
+  left: 15rem;
+  right: 3rem;
+  z-index: 1;
+  border-color: #1890ff;
+  border-radius: 10px;
+  border-width: 2px;
+  border-style: solid;
+  background-color: #ffffff;
+}
+
+Header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
 }

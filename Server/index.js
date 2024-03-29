@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routs.js";
 import mongoose from "mongoose";
 import cors from "cors";
 
+
 console.log("MONGO:", process.env.MONGO);
 console.log("PORT:", process.env.PORT);
 const app = express();

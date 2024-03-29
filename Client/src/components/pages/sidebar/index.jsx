@@ -18,7 +18,7 @@ const Sidebar = () => {
         <div className="connected-users">
           <h3>Connected Users:</h3>
           {connectedUsers.map((user) => (
-            <Menu.Item className="online" key={user.id} onClick={() => window.location.href = `/user/${user.id}`}>
+            <Menu.Item className="online" key={user.id} >
               {user.username}
             </Menu.Item>
           ))}
