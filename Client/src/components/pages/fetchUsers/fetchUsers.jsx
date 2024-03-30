@@ -9,6 +9,7 @@ const FetchUsers = () => {
     const fetchUsers = async () => {
       try {
         const connectedUsersResponse = await axios.get("/api/auth/online");
+        
         const disconnectedUsersResponse = await axios.get("/api/auth/offline");
         console.log("after axios");
         const currentUser = connectedUsersResponse.data.users[0];

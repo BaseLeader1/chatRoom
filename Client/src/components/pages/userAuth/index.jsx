@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import userStore from "../../zustand/userStore";
 import axios from "axios";
 
 const UserAuth = () => {
-  const [userData, setUserData] = useState(null);
+  const CurrentUser = userStore((state) => state.CurrentUser);
+  const userName = userStore((state) => state.userName); // Access userName from the store
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -11,7 +13,6 @@ const UserAuth = () => {
       try {
         // Get the user token from localStorage
         const userToken = localStorage.getItem("token");
-        console.log("userToken", userToken);
 
         // Make a GET request to a protected route on the server
         const response = await axios.get("/api/auth/getuser", {
@@ -19,10 +20,8 @@ const UserAuth = () => {
             Authorization: `Bearer ${userToken}`, // Include the Bearer token in the request headers
           },
         });
-
         // Set the retrieved user data to state
-        setUserData(response.data);
-        console.log(userData);
+        CurrentUser(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
         // Set error state if request fails
@@ -37,15 +36,16 @@ const UserAuth = () => {
     return <div>Error: {error}</div>;
   }
 
-  if (!userData) {
+  if (!CurrentUser) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
       <h1 style={{ textAlign: "center", color: "white" }}>
-        Hello: {userData.username}
-      </h1>
+        Hello: {userName.username}
+      </h1>{" "}
+      {/* Render userName.username here */}
     </div>
   );
 };

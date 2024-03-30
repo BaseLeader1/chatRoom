@@ -30,7 +30,7 @@ const MessageInput = ({ onSendMessage }) => { // Receive the onSendMessage handl
         value={message} // Controlled input
         onChange={handleInputChange} // Update local state on change
       />
-      <MyButton content={<>&#10148; Send</>} onClick={handleSendClick} />
+      <MyButton content={<>&#10148; Send</>} onClicking={handleSendClick} />
     </div>
   );
 };

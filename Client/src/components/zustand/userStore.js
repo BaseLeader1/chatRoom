@@ -3,13 +3,13 @@ import axios from "axios";
 
 const useUserStore = create((set) => ({
   user: null,
+  userName: "",
   isConnected: false,
   connectedUser: null, // Initialize connectedUser here
   connectedUsers: [],
   disconnectedUsers: [],
   chats: {},
   authToken: "",
-
   login: ({ connectedUsers, disconnectedUsers, user }) => {
     set({
       user,
@@ -56,6 +56,8 @@ const useUserStore = create((set) => ({
     }),
 
   setConnectedUser: (user) => set({ connectedUser: user }),
+  CurrentUser: (userName) => set({ userName: userName }),
+  
 }));
 
 export default useUserStore;

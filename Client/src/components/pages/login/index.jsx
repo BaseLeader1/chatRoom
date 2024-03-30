@@ -17,10 +17,10 @@ const Login = () => {
       const response = await axios.post("/api/auth/login", {
         username,
         password,
-        token: ""
+        token: "",
       });
       const token = response.data.token;
-      localStorage.setItem("token", token); 
+      localStorage.setItem("token", token);
       console.log("Signin successful:", response.data);
       navigate("/room");
 
@@ -32,7 +32,14 @@ const Login = () => {
   };
 
   return (
-    <div className="form">
+    <div
+      className="form"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleLogin(e);
+        }
+      }}
+    >
       <h2 className="title">Login</h2>
       {error && <p className="error-message">{error}</p>}
       <input
@@ -52,7 +59,12 @@ const Login = () => {
       <button onClick={handleLogin} className="button-confirm">
         Login
       </button>
-      <span style={{ color: "black" }}>New here? <a href="/signup" className="link">Sign up</a></span>
+      <span style={{ color: "black" }}>
+        New here?{" "}
+        <a href="/signup" className="link">
+          Sign up
+        </a>
+      </span>
     </div>
   );
 };

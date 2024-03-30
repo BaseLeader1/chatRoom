@@ -7,12 +7,20 @@ import useUserStore from "../../zustand/userStore";
 import axios from "axios";
 import Logout from "../logout";
 import UserAuth from "../userAuth";
+import UserList from "../UserList";
 import "./style.css";
 
 const { Header, Content } = Layout;
 
 const Room = () => {
-  const connectedUser = useUserStore((state) => state.connectedUser);
+  const currentUser = useUserStore((state) => state.user); // Get the current user
+
+  // Filter out the current user from the list of connected users
+  const { connectedUsers } = useUserStore((state) => ({
+    connectedUsers: state.connectedUsers.filter(
+      (user) => user.id !== currentUser.id
+    ),
+  }));
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -29,6 +37,7 @@ const Room = () => {
             style={{ padding: 24, minHeight: 360 }}
           >
             {/* Content */}
+            <UserList /> {/* Render the UserList component */}
           </div>
           <div className="message-input-container">
             <MessageInput />

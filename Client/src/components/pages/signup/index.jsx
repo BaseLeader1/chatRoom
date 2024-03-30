@@ -44,10 +44,23 @@ const Signup = () => {
         onChange={(e) => setPassword(e.target.value)}
         className="input"
       />
-      <button onClick={handleSignup} className="button-confirm">
+      <button
+        onClick={handleSignup}
+        className="button-confirm"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleSignup(e); // Call handleSignup when Enter key is pressed
+          }
+        }}
+      >
         Signup
       </button>
-      <span style={{ color: "black" }}>Already have an account? <a href="/login" className="link">Log in</a></span>
+      <span style={{ color: "black" }}>
+        Already have an account?{" "}
+        <a href="/login" className="link">
+          Log in
+        </a>
+      </span>
     </div>
   );
 };
