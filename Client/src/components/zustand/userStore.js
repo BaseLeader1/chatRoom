@@ -57,7 +57,6 @@ const useUserStore = create((set) => ({
 
   setConnectedUser: (user) => set({ connectedUser: user }),
   CurrentUser: (userName) => set({ userName: userName }),
-  
 }));
 
 export default useUserStore;

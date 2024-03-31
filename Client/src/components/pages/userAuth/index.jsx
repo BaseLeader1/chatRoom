@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import userStore from "../../zustand/userStore";
+import useUserStore from "../../zustand/userStore";
 import axios from "axios";
 
 const UserAuth = () => {
-  const CurrentUser = userStore((state) => state.CurrentUser);
-  const userName = userStore((state) => state.userName); // Access userName from the store
+  const CurrentUser = useUserStore((state) => state.CurrentUser);
+  const userName = useUserStore((state) => state.userName); // Access userName from the store
   const [error, setError] = useState(null);
 
   useEffect(() => {

@@ -14,11 +14,11 @@ import "./style.css";
 const { Header, Content } = Layout;
 
 const Room = () => {
-  const currentUser = useUserStore((state) => state.user);
+  const userName = useUserStore((state) => state.userName); // Access userName from the store
 
   const connectedUsers = useUserStore((state) => ({
     connectedUsers: state.connectedUsers.filter(
-      (user) => user.id !== currentUser.id
+      (user) => user.id !== userName.id
     ),
   }));
 
@@ -28,14 +28,14 @@ const Room = () => {
     setSelectedChatUser(user);
   };
 
-    const handleSendMessage = async (message) => {
+  const handleSendMessage = async (message) => {
     try {
       console.log("selectedChatUser", selectedChatUser.username);
-      console.log("currentUser", currentUser.username);
+      console.log("currentUser", userName.username);
       console.log("message", message);
       // Send message to your backend API
       await axios.post("http://localhost:5001/api/auth/send", {
-        sender: currentUser.username,
+        sender: userName.username,
         receiver: selectedChatUser.username,
         content: message,
       });
@@ -43,8 +43,6 @@ const Room = () => {
       console.error("Error sending message:", error);
     }
   };
-
-  
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
