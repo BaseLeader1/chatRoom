@@ -1,15 +1,21 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import useUserStore from "../../zustand/userStore"; // Import the Zustand store
+import useUserStore from "../../zustand/userStore";
 
 const { Sider } = Layout;
 
-const Sidebar = () => {
-  const { connectedUsers, disconnectedUsers } = useUserStore((state) => ({
-    connectedUsers: state.connectedUsers || [],
-    disconnectedUsers: state.disconnectedUsers || [],
-  }));
-  const userName = useUserStore((state) => state.userName); // Access userName from the store
+const Sidebar = ({ onSelectUser }) => { // Receive onSelectUser function as prop
+  const { connectedUsers, disconnectedUsers, userName } = useUserStore(
+    (state) => ({
+      connectedUsers: state.connectedUsers || [],
+      disconnectedUsers: state.disconnectedUsers || [],
+      userName: state.userName,
+    })
+  );
+
+  const handleUserClick = (user) => { // Function to handle user click
+    onSelectUser(user); // Pass selected user data to parent component
+  };
 
   // Ensure userName is a string
   const userNameString =
@@ -22,17 +28,16 @@ const Sidebar = () => {
   return (
     <Sider>
       <div className="logo">{/* Logo content */}</div>
-      <Menu
-        theme="dark"
-        mode="inline"
-        defaultSelectedKeys={["1"]}
-        className="menu"
-      >
+      <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]} className="menu">
         {/* Display connected users */}
         <div className="connected-users">
           <h3>Connected Users:</h3>
           {filteredConnectedUsers.map((user) => (
-            <Menu.Item className="online" key={user.id}>
+            <Menu.Item
+              className="online"
+              key={user.id}
+              onClick={() => handleUserClick(user)} // Handle user click event
+            >
               {user.username}
             </Menu.Item>
           ))}

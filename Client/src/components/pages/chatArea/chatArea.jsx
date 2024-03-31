@@ -1,36 +1,29 @@
+
+
 import React, { useState, useEffect } from 'react';
-import { useUserStore } from '../../zustand/userStore';
+import useUserStore from '../../zustand/userStore';
 import { Spin } from 'antd';
 import socketIOClient from 'socket.io-client';
-import fetchMessages from './FetchMessages';
-import './ChatArea.css';
+import axios from 'axios'; // Import axios for HTTP requests
+
+import './chatArea.css';
 import { MessageBox, Input } from 'react-chat-elements';
-import 'react-chat-elements/dist/main.css'; // Import RCE styles
+import 'react-chat-elements/dist/main.css';
 
 const ChatArea = ({ currentChat }) => {
-  const { sendMessage, loading } = useUserStore((state) => ({
-    sendMessage: state.sendMessage,
+  const { loading } = useUserStore((state) => ({
     loading: state.loading,
   }));
+
   const [messages, setMessages] = useState([]);
-
-
-  useEffect(() => {
-    const socket = socketIOClient('http://localhost:5001');
-    socket.on('message', (message) => {
-      setMessages(prevMessages => [...prevMessages, message]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
-  }, []);
+  const [inputMessage, setInputMessage] = useState(''); // State for input message
 
   useEffect(() => {
     const fetchMessagesAndUpdateState = async () => {
       try {
-        const fetchedMessages = await fetchMessages();
-        setMessages(fetchedMessages);
+        // Fetch messages from your backend API
+        const response = await axios.get('/messages'); // Adjust the endpoint accordingly
+        setMessages(response.data.messages);
       } catch (error) {
         console.error('Error fetching messages:', error);
       }
@@ -39,10 +32,20 @@ const ChatArea = ({ currentChat }) => {
     fetchMessagesAndUpdateState();
   }, []);
 
-  const handleSendMessage = async (content) => {
+  const handleSendMessage = async () => {
     try {
-      await sendMessage(currentChat.senderId, currentChat.receiverId, content);
-      setMessages([...messages, { senderId: currentChat.senderId, content }]);
+      // Send message to your backend API
+      await axios.post('/send', {
+        sender: currentChat.senderId,
+        receiver: currentChat.receiverId,
+        content: inputMessage,
+      });
+      
+      // Add the sent message to the state
+      setMessages([...messages, { senderId: currentChat.senderId, content: inputMessage }]);
+      
+      // Clear the input field
+      setInputMessage('');
     } catch (error) {
       console.error('Error sending message:', error);
     }
@@ -55,7 +58,9 @@ const ChatArea = ({ currentChat }) => {
   return (
     <div className="chat-area">
       <div className="chat-header">
-        Chat with {currentChat.username}
+      <div className="chat-header">
+  Chat with {currentChat && currentChat.username}
+</div>
       </div>
       <div className="chat-messages">
         {messages.map((message, index) => (
@@ -68,24 +73,7 @@ const ChatArea = ({ currentChat }) => {
           />
         ))}
       </div>
-      <Input
-        placeholder="Type a message..."
-        multiline={true}
-        onKeyPress={(e) => {
-          if (e.shiftKey && e.charCode === 13) {
-            return true;
-          }
-          if (e.charCode === 13) {
-            handleSendMessage(e.target.value);
-            e.target.value = ''; // Clear input after send
-            e.preventDefault();
-            return false;
-          }
-        }}
-        rightButtons={
-          <button onClick={() => handleSendMessage(document.querySelector('.rce-input').value)}>Send</button>
-        }
-      />
+      
     </div>
   );
 };
