@@ -16,7 +16,10 @@ export const io = new Server(server); // Attach Socket.IO to HTTP server
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173'
+}));
+
 app.use("/api/auth", authRoutes);
 
 const connect = () => {
