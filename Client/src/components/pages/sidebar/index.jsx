@@ -27,7 +27,9 @@ const Sidebar = ({ onSelectUser }) => { // Receive onSelectUser function as prop
 
   return (
     <Sider>
-      <div className="logo">{/* Logo content */}</div>
+     <div className="logo">
+  Chat Zone
+</div>
       <Menu theme="dark" mode="inline" defaultSelectedKeys={["1"]} className="menu">
         {/* Display connected users */}
         <div className="connected-users">

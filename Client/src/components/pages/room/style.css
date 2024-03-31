@@ -22,15 +22,63 @@ body {
   color: var(--text-color);
 }
 
-/* Logo styles */
 .logo {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #ff6b6b, #feca57); /* Initial gradient background */
   padding: 10px;
   font-size: 24px;
   text-align: center;
-  color: var(--text-color);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #333333; /* Dark blue text color */
+  border-radius: 50%; /* Make it circular */
+  width: 150px; /* Adjust size as needed */
+  height: 150px; /* Adjust size as needed */
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  display: flex; /* Use flexbox */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  font-family: 'YourCoolFont', sans-serif; /* Use your desired font */
+  animation: animateRainbow 20s linear infinite, animateColor 10s ease infinite; /* Animation for rainbow effect and text color variation */
 }
+
+@keyframes animateRainbow {
+  0% {
+    background: linear-gradient(135deg, #ff6b6b, #feca57); /* Red and yellow gradient */
+  }
+  20% {
+    background: linear-gradient(135deg, #feca57, #fffd80); /* Yellow and lemon gradient */
+  }
+  40% {
+    background: linear-gradient(135deg, #fffd80, #a7ff83); /* Lemon and lime gradient */
+  }
+  60% {
+    background: linear-gradient(135deg, #a7ff83, #57e0e3); /* Lime and aqua gradient */
+  }
+  80% {
+    background: linear-gradient(135deg, #57e0e3, #5d2e8c); /* Aqua and indigo gradient */
+  }
+  100% {
+    background: linear-gradient(135deg, #5d2e8c, #ff6b6b); /* Indigo and red gradient */
+  }
+}
+
+@keyframes animateColor {
+  0% {
+    color: #333333; /* Dark blue text color */
+  }
+  25% {
+    color: #1e90ff; /* Medium blue */
+  }
+  50% {
+    color: #0000ff; /* Blue */
+  }
+  75% {
+    color: #1e90ff; /* Medium blue */
+  }
+  100% {
+    color: #333333; /* Dark blue text color */
+  }
+}
+
+
 
 /* Sider styling */
 .ant-layout-sider {
