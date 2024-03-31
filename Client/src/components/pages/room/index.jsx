@@ -28,7 +28,7 @@ const Room = () => {
     setSelectedChatUser(user);
   };
 
-  const handleSendMessage = async (message) => {
+    const handleSendMessage = async (message) => {
     try {
       console.log("selectedChatUser", selectedChatUser.username);
       console.log("currentUser", currentUser.username);
@@ -43,6 +43,8 @@ const Room = () => {
       console.error("Error sending message:", error);
     }
   };
+
+  
 
   return (
     <Layout style={{ minHeight: "100vh" }}>

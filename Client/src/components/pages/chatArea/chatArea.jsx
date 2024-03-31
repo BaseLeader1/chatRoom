@@ -1,55 +1,36 @@
-
-
 import React, { useState, useEffect } from 'react';
-import useUserStore from '../../zustand/userStore';
 import { Spin } from 'antd';
 import socketIOClient from 'socket.io-client';
 import axios from 'axios'; // Import axios for HTTP requests
 
 import './chatArea.css';
-import { MessageBox, Input } from 'react-chat-elements';
+import { MessageBox } from 'react-chat-elements';
 import 'react-chat-elements/dist/main.css';
 
 const ChatArea = ({ currentChat }) => {
-  const { loading } = useUserStore((state) => ({
-    loading: state.loading,
-  }));
-
+  const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
-  const [inputMessage, setInputMessage] = useState(''); // State for input message
+  const [inputMessage, setInputMessage] = useState('');
+  const [socket, setSocket] = useState(null);
+
 
   useEffect(() => {
     const fetchMessagesAndUpdateState = async () => {
       try {
-        // Fetch messages from your backend API
-        const response = await axios.get('/messages'); // Adjust the endpoint accordingly
+        // Fetch initial messages from your backend API
+        const response = await axios.get('http://localhost:5001/api/auth/messages');
         setMessages(response.data.messages);
+        setLoading(false);
       } catch (error) {
         console.error('Error fetching messages:', error);
+        setLoading(false);
       }
     };
 
     fetchMessagesAndUpdateState();
   }, []);
 
-  const handleSendMessage = async () => {
-    try {
-      // Send message to your backend API
-      await axios.post('/send', {
-        sender: currentChat.senderId,
-        receiver: currentChat.receiverId,
-        content: inputMessage,
-      });
-      
-      // Add the sent message to the state
-      setMessages([...messages, { senderId: currentChat.senderId, content: inputMessage }]);
-      
-      // Clear the input field
-      setInputMessage('');
-    } catch (error) {
-      console.error('Error sending message:', error);
-    }
-  };
+
 
   if (loading) {
     return <Spin />;
@@ -58,22 +39,20 @@ const ChatArea = ({ currentChat }) => {
   return (
     <div className="chat-area">
       <div className="chat-header">
-      <div className="chat-header">
-  Chat with {currentChat && currentChat.username}
-</div>
+        Chat with {currentChat && currentChat.username}
       </div>
       <div className="chat-messages">
-        {messages.map((message, index) => (
-          <MessageBox
-            key={index}
-            position={message.senderId === currentChat.senderId ? 'right' : 'left'}
-            type="text"
-            text={message.content}
-            dateString={new Date(message.createdAt).toLocaleString()}
-          />
-        ))}
+      {messages.map((message, index) => (
+  <MessageBox
+    key={index}
+    position={message.sender.username === currentChat.sender.username ? 'right' : 'left'}
+    type="text"
+    text={message.content}
+    dateString={new Date(message.createdAt).toLocaleString()}
+  />
+))}
+
       </div>
-      
     </div>
   );
 };

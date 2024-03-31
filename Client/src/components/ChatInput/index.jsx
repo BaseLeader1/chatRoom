@@ -40,4 +40,3 @@ const MessageInput = ({ onSendMessage }) => {
 };
 
 export default MessageInput;
-
