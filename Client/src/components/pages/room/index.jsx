@@ -15,6 +15,8 @@ const { Header, Content } = Layout;
 
 const Room = () => {
   const userName = useUserStore((state) => state.userName); // Access userName from the store
+  const selectedUser = useUserStore((state) => state.selectedUser);
+  const setSelectedUser= useUserStore((state) => state.setSelectedUser);
 
   const connectedUsers = useUserStore((state) => ({
     connectedUsers: state.connectedUsers.filter(
@@ -22,21 +24,19 @@ const Room = () => {
     ),
   }));
 
-  const [selectedChatUser, setSelectedChatUser] = useState(null);
-
   const handleChatUserSelection = (user) => {
-    setSelectedChatUser(user);
+    setSelectedUser(user);
   };
 
   const handleSendMessage = async (message) => {
     try {
-      console.log("selectedChatUser", selectedChatUser.username);
+      console.log("selectedChatUser", selectedUser.username);
       console.log("currentUser", userName.username);
       console.log("message", message);
       // Send message to your backend API
       await axios.post("http://localhost:5001/api/auth/send", {
         sender: userName.username,
-        receiver: selectedChatUser.username,
+        receiver: selectedUser.username,
         content: message,
       });
     } catch (error) {
@@ -58,7 +58,7 @@ const Room = () => {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
           >
-            <ChatArea currentChat={selectedChatUser} />
+            <ChatArea currentChat={selectedUser} />
           </div>
           <div className="message-input-container">
             {/* Pass handleSendMessage as a prop to MessageInput */}

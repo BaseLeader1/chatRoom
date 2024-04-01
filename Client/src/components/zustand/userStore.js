@@ -4,12 +4,16 @@ import axios from "axios";
 const useUserStore = create((set) => ({
   user: null,
   userName: "",
+  selectedUser: null,
   isConnected: false,
   connectedUser: null, // Initialize connectedUser here
   connectedUsers: [],
   disconnectedUsers: [],
   chats: {},
   authToken: "",
+  messageHasBeenSent: "yes",
+  setMessageHasBeenSent: (value) => set({ messageHasBeenSent: value }),
+  setSelectedUser: (user) => set({ selectedUser: user }),
   login: ({ connectedUsers, disconnectedUsers, user }) => {
     set({
       user,

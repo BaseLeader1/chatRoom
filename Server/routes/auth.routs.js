@@ -21,7 +21,7 @@ router.get("/offline", getOfflineUsers);
 
 router.post("/send", sendMessage);
 
-router.get("/send", getMessages);
+router.get("/messages", getMessages);
 
 router.get("/getuser", getUser, (req, res) => {
   // Access the authenticated user through req.user
