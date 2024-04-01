@@ -1,10 +1,12 @@
-// TicTacToe.jsx
 import React, { useState, useEffect } from "react";
 import Board from "./Board";
 import GameOver from "./GameOver";
 import GameState from "./GameState";
 import Reset from "./Reset";
 import Strike from "./Strike";
+import io from "socket.io-client";
+
+const socket = io("http://localhost:5001"); // Connect to the server
 
 const PLAYER_X = "X";
 const PLAYER_O = "O";
@@ -57,6 +59,7 @@ function TicTacToe() {
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
   const [strikeClass, setStrikeClass] = useState();
   const [gameState, setGameState] = useState(GameState.inProgress);
+  const [selectedUser, setSelectedUser] = useState(null); // Initialize selectedUser state
 
   const handleTileClick = (index) => {
     if (gameState !== GameState.inProgress || tiles[index] !== null) {
@@ -67,6 +70,9 @@ function TicTacToe() {
     newTiles[index] = playerTurn;
     setTiles(newTiles);
     setPlayerTurn(playerTurn === PLAYER_X ? PLAYER_O : PLAYER_X);
+
+    // Emit the clicked tile index to the server
+    socket.emit("tileClicked", index);
   };
 
   const handleReset = () => {
@@ -77,12 +83,25 @@ function TicTacToe() {
   };
 
   useEffect(() => {
+    // Listen for updates from the server
+    socket.on("tilesUpdated", (updatedTiles) => {
+      setTiles(updatedTiles);
+    });
+
+    // Clean up the socket connection
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     checkWinner(tiles, setStrikeClass, setGameState);
   }, [tiles]);
 
   return (
     <div>
       <h1>Tic Tac Toe</h1>
+      <h2>Playing against: {selectedUser ? selectedUser.username : "No Opponent"}</h2> {/* Display opponent's name */}
       <Board
         tiles={tiles}
         onTileClick={handleTileClick}

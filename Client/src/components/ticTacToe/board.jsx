@@ -1,10 +1,11 @@
-// Board.jsx
+
 import React from "react";
 import Tile from "./Tile";
 
-function Board({ tiles, onTileClick, playerTurn, strikeClass }) {
+function Board({ tiles, onTileClick, playerTurn, strikeClass, selectedUserName }) {
   return (
     <div className="board">
+      <div className="opponent-name">Opponent: {selectedUserName}</div>
       {tiles.map((value, index) => (
         <Tile
           key={index}

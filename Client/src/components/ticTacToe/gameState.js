@@ -1,4 +1,4 @@
-// GameState.js
+
 const GameState = {
     playerXWins: 0,
     playerOWins: 1,
