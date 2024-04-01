@@ -1,10 +1,15 @@
 import Message from "../models/message.js";
+import { io } from "../index.js"; // Import io instance from index.js
 
 export const sendMessage = async (req, res) => {
   try {
     const { sender, receiver, content } = req.body;
     const message = new Message({ sender, receiver, content });
     await message.save();
+
+    // Emit a WebSocket event to notify clients about the new message
+    io.emit("newMessage", message);
+
     res.status(201).json({ message: "Message sent successfully" });
   } catch (error) {
     console.error(error);
