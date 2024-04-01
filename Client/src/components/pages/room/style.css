@@ -7,6 +7,21 @@
   --online-status: #52c41a;
   --offline-status: #f5222d;
 }
+.online::before,
+.offline::before {
+  position: relative;
+  display: inline-block;
+  animation: shine 1.5s infinite alternate;
+}
+
+@keyframes shine {
+  0% {
+    opacity: 0.5; /* Initial opacity */
+  }
+  100% {
+    opacity: 1; /* Full opacity */
+  }
+}
 
 /* Reset some default styles */
 * {

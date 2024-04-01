@@ -1,20 +1,23 @@
 .message-form {
   display: flex;
+  align-items: center;
   border-top: 2px solid #d3d3d3;
+  padding-top: 4px; /* Increased padding to lower the input bar */
 }
 
 .messageInput {
-  width: 250px;
-  height: 40px;
-  border-radius: 5px;
+  flex: 1;
+  height: 30px; /* Adjusted height */
+  border-radius: 20px; /* Increased border-radius for a rounder look */
   border: 2px solid var(--main-color);
   background-color: var(--bg-color);
   box-shadow: 4px 4px var(--main-color);
   font-size: 15px;
   font-weight: 600;
   color: var(--font-color);
-  padding: 5px 10px;
+  padding: 5px 10px; /* Adjusted padding */
   outline: none;
+  transition: all 0.3s ease; /* Added transition for smooth animations */
 }
 
 .messageInput::placeholder {
@@ -26,13 +29,23 @@
   border: 2px solid var(--input-focus);
 }
 
+.messageInput:hover {
+  background-color: #f0f0f0; /* Added hover effect */
+}
+
 .sendButton {
   color: #fff !important;
   text-transform: uppercase;
   text-decoration: none;
   background: #2979ff;
-  padding: 10px 20px; 
+  padding: 8px 15px; /* Adjusted padding */
   border: none;
-  margin-left: 10px; 
-  cursor: pointer; 
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 20px; /* Increased border-radius for a rounder look */
+  transition: background-color 0.3s ease; /* Added transition for smooth animations */
+}
+
+.sendButton:hover {
+  background: #1e5dff;
 }

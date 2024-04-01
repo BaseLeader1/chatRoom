@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Layout } from "antd";
 import ChatArea from "../chatArea/chatArea";
 import Sidebar from "../sidebar/index";
@@ -14,15 +14,9 @@ import "./style.css";
 const { Header, Content } = Layout;
 
 const Room = () => {
-  const userName = useUserStore((state) => state.userName); // Access userName from the store
+  const userName = useUserStore((state) => state.userName);
   const selectedUser = useUserStore((state) => state.selectedUser);
-  const setSelectedUser= useUserStore((state) => state.setSelectedUser);
-
-  const connectedUsers = useUserStore((state) => ({
-    connectedUsers: state.connectedUsers.filter(
-      (user) => user.id !== userName.id
-    ),
-  }));
+  const setSelectedUser = useUserStore((state) => state.setSelectedUser);
 
   const handleChatUserSelection = (user) => {
     setSelectedUser(user);
@@ -30,10 +24,7 @@ const Room = () => {
 
   const handleSendMessage = async (message) => {
     try {
-      console.log("selectedChatUser", selectedUser.username);
-      console.log("currentUser", userName.username);
-      console.log("message", message);
-      // Send message to your backend API
+      // Send message to the backend API
       await axios.post("http://localhost:5001/api/auth/send", {
         sender: userName.username,
         receiver: selectedUser.username,
@@ -58,10 +49,9 @@ const Room = () => {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
           >
-            <ChatArea currentChat={selectedUser} />
+            <ChatArea selectedUser={selectedUser} onSendMessage={handleSendMessage} />
           </div>
           <div className="message-input-container">
-            {/* Pass handleSendMessage as a prop to MessageInput */}
             <MessageInput onSendMessage={handleSendMessage} />
           </div>
         </Content>
