@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spin } from "antd";
+import { Spin, Button } from "antd";
 import axios from "axios";
 import { MessageBox } from "react-chat-elements";
 import useUserStore from "../../zustand/userStore";
@@ -59,7 +59,11 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
       console.error("Error sending message:", error);
     }
   };
-  
+
+  const handlePlayClick = () => {
+    // Navigate to the Tic Tac Toe game page and pass the selected user information
+    history.push("/play-tictactoe", { selectedUser });
+  };
   
   if (loading) {
     return (
@@ -70,31 +74,29 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
     );
   }
   
-  
-
   return (
     <div className="chat-area">
       <div className="chat-header">Chat with {selectedUser && selectedUser.username}</div>
-      <div className="chat-messages">
-      {messages.map((message, index) => (
-  <MessageBox
-    key={message.createdAt} // Use message timestamp as key
-    position={message.sender === userName.username ? "right" : "left"}
-    type="text"
-    text={message.content}
-    dateString={formatDateString(message.createdAt)}
-    className={message.sender === userName.username ? "sent-message" : "received-message"}
-    onMessageClick={() => handleMessageSend(message.content)} 
-  />
-))}
+      <button className="play-button" onClick={handlePlayClick}>Play Tic Tac Toe</button>
 
+      <div className="chat-messages">
+        {messages.map((message, index) => (
+          <MessageBox
+            key={message.createdAt} // Use message timestamp as key
+            position={message.sender === userName.username ? "right" : "left"}
+            type="text"
+            text={message.content}
+            dateString={formatDateString(message.createdAt)}
+            className={message.sender === userName.username ? "sent-message" : "received-message"}
+            onMessageClick={() => handleMessageSend(message.content)} 
+          />
+        ))}
       </div>
     </div>
   );
 };
 
 export default ChatArea;
-
 function formatDateString(dateString) {
   const messageDate = new Date(dateString);
   const now = new Date();
@@ -103,11 +105,16 @@ function formatDateString(dateString) {
   if (messageDate.getDate() === now.getDate() &&
       messageDate.getMonth() === now.getMonth() &&
       messageDate.getFullYear() === now.getFullYear()) {
-    return `${padZero(messageDate.getHours())}:${padZero(messageDate.getMinutes())}`;
+    return formatTimeString(dateString); // Use formatTimeString for today's messages
   } else {
     // Display the date if the message was sent on a different day
     return `${padZero(messageDate.getDate())}/${padZero(messageDate.getMonth() + 1)}/${messageDate.getFullYear()}`;
   }
+}
+
+function formatTimeString(dateString) {
+  const messageDate = new Date(dateString);
+  return `${padZero(messageDate.getHours())}:${padZero(messageDate.getMinutes())}`;
 }
 
 function padZero(num) {

@@ -17,6 +17,7 @@
     "react-chat-elements": "^12.0.14",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
+    "react-tooltip": "^5.26.3",
     "save": "^2.9.0",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",

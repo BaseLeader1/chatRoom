@@ -1,6 +1,6 @@
 
 import React from "react";
-import Tile from "./Tile";
+import Tile from "./tile";
 
 function Board({ tiles, onTileClick, playerTurn, strikeClass, selectedUserName }) {
   return (

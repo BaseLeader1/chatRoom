@@ -28,6 +28,7 @@ body {
   padding: 20px; /* Increased padding for better visual separation */
 }
 
+
 .sent-message .rce-mbox {
   background-color: #4caf50; /* Green background for sent messages */
   color: #fff; /* White text color for sent messages */
@@ -105,4 +106,25 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.play-button {
+  background-color: #007bff; /* Blue color */
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease-in-out;
+}
+
+.play-button:hover {
+  transform: scale(1.05);
+}
+
+.play-button:focus {
+  outline: none;
 }
