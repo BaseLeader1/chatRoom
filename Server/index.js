@@ -12,13 +12,18 @@ console.log("MONGO:", process.env.MONGO);
 console.log("PORT:", process.env.PORT);
 const app = express();
 const server = createServer(app); // Create HTTP server
-export const io = new Server(server); // Attach Socket.IO to HTTP server
+export const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
+  }
+});
 const PORT = process.env.PORT || 3000;
 
+
 app.use(express.json());
-app.use(cors({
-  origin: 'http://localhost:5173'
-}));
+app.use(cors());
+
 
 app.use("/api/auth", authRoutes);
 
