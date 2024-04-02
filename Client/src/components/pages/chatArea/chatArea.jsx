@@ -73,8 +73,25 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
   };
 
   const handlePlayClick = () => {
+    try {
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        {
+          sender: userName.username,
+          receiver: selectedUser.username,
+          content: `you have been invited to play Tic Tac Toe with ${userName.username}`,
+          createdAt: new Date(),
+          fadeEffect: true,
+        },
+      ]);
+      onSendMessage(
+        `you have been invited to play Tic Tac Toe with ${userName.username}`
+      );
+      navigate("/play-tictactoe");
+    } catch (error) {
+      console.error("Error playing Tic Tac Toe:", error);
+    }
     // Navigate to the Tic Tac Toe game page and pass the selected user information
-    navigate("/play-tictactoe");
   };
 
   if (loading) {

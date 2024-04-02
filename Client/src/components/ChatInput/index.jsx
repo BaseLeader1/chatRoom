@@ -17,14 +17,17 @@ const MessageInput = ({ onSendMessage }) => {
   };
 
   // Handle sending message on pressing Enter key
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSendClick();
-    }
-  };
+  
 
   return (
-    <div className="message-form">
+    <div
+      className="message-form"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSendClick(e);
+        }
+      }}
+    >
       <input
         id="messageInput"
         className="messageInput"
@@ -32,7 +35,6 @@ const MessageInput = ({ onSendMessage }) => {
         placeholder="Type your message here"
         value={message}
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress} // Handle key press events
       />
       <MyButton content={<>&#10148; Send</>} onClicking={handleSendClick} />
     </div>

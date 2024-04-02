@@ -15,15 +15,13 @@ const server = createServer(app); // Create HTTP server
 export const io = new Server(server, {
   cors: {
     origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
-  }
+    methods: ["GET", "POST"],
+  },
 });
 const PORT = process.env.PORT || 3000;
 
-
 app.use(express.json());
 app.use(cors());
-
 
 app.use("/api/auth", authRoutes);
 
@@ -44,7 +42,5 @@ const connect = () => {
       console.error("Error connecting to MongoDB:", err.message);
       process.exit(1); // Exit the process if unable to connect to MongoDB
     });
-    
-
 };
 connect();

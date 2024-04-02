@@ -21,6 +21,7 @@ const Login = () => {
       });
       const token = response.data.token;
       localStorage.setItem("token", token);
+      localStorage.setItem("yourname", username);
       console.log("Signin successful:", response.data);
       navigate("/room");
 

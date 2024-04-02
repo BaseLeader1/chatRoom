@@ -43,7 +43,7 @@ const UserAuth = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center", color: "white" }}>
-        Hello,  {userName.username}
+        Hello, {userName.username}
       </h1>{" "}
       {/* Render userName.username here */}
     </div>

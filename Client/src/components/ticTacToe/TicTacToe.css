@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #00008B; /* Changed to dark blue */
+    background-color: #00008B; 
   }
 
 .title {

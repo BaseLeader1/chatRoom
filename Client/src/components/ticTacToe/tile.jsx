@@ -1,4 +1,3 @@
-
 import React from "react";
 
 function Tile({ value, onClick, playerTurn }) {
@@ -6,7 +5,7 @@ function Tile({ value, onClick, playerTurn }) {
   if (value == null && playerTurn != null) {
     hoverClass = `${playerTurn.toLowerCase()}-hover`;
   }
-  
+
   return (
     <div onClick={onClick} className={`tile ${hoverClass}`}>
       {value}

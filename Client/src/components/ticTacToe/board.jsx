@@ -1,16 +1,15 @@
-
 import React from "react";
 import Tile from "./tile";
 
 function Board({ tiles, onTileClick, playerTurn, strikeClass, selectedUserName }) {
   return (
     <div className="board">
-       {/* <div className="opponent-name">Opponent: {selectedUserName}</div> */}
+      {/* <div className="opponent-name">Opponent: {selectedUserName}</div> */}
       {tiles.map((value, index) => (
         <Tile
           key={index}
           value={value}
-          onClick={() => onTileClick(index)}
+          onClick={() => playerTurn === yourName && onTileClick(index)} 
           playerTurn={playerTurn}
           className={getClassname(index)}
         />
