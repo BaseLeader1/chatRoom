@@ -99,6 +99,10 @@ function TicTacToe() {
       <GameOver gameState={gameState} />
       <Reset gameState={gameState} onReset={handleReset} />
       {strikeClass && <Strike strikeClass={strikeClass} />}
+      <a href="/room" className="animated-link">
+        <span className="link-text">Back to Room</span>
+        <span className="exit-icon">&#x2716;</span>
+      </a>
     </div>
   );
 }

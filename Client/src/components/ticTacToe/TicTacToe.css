@@ -57,6 +57,34 @@
   top: 30px;
 }
 
+.animated-link {
+    position: fixed;
+    bottom: 50px; /* Adjust as needed */
+    left: 10px;
+    display: inline-block;
+    text-decoration: none;
+    color: #fff; /* Changed to white */
+    font-size: 16px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+  
+  .animated-link:hover {
+    transform: translateY(-5px);
+  }
+  
+  .link-text {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  
+  .exit-icon {
+    display: inline-block;
+    font-size: 16px;
+  }
+  
+  
+  
 .strike-row-2 {
   top: 50%;
   transform: translateY(-50%);
