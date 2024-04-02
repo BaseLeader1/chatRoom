@@ -28,4 +28,5 @@ router.get("/getuser", getUser, (req, res) => {
   res.json(req.user);
 });
 
+
 export default router;
