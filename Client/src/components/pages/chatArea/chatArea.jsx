@@ -18,22 +18,26 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
     const fetchMessagesAndUpdateState = async () => {
       try {
         if (userName && userName.username && selectedUser) {
-          const response = await axios.get("http://localhost:5001/api/auth/messages", {
-            params: {
-              sender: userName.username,
-              receiver: selectedUser.username,
-            },
-          });
-  
+          const response = await axios.get(
+            "http://localhost:5001/api/auth/messages",
+            {
+              params: {
+                sender: userName.username,
+                receiver: selectedUser.username,
+              },
+            }
+          );
+
           setMessages(response.data.messages);
           setLoading(false);
-  
+          localStorage.setItem("opponent", selectedUser.username);
+
           const socket = socketIOClient("http://localhost:5001");
-  
+
           socket.on("newMessage", (newMessage) => {
             setMessages((prevMessages) => [...prevMessages, newMessage]);
           });
-  
+
           return () => {
             socket.disconnect();
           };
@@ -43,17 +47,23 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
         setLoading(false);
       }
     };
-  
+
     fetchMessagesAndUpdateState();
   }, [selectedUser, userName]);
-  
+
   const handleMessageSend = async (message) => {
     try {
-      if (message.trim()) { // Check if the message is not empty
+      if (message.trim()) {
+        // Check if the message is not empty
         // Add the new message with a fade-in effect
-        setMessages(prevMessages => [
+        setMessages((prevMessages) => [
           ...prevMessages,
-          { sender: userName.username, content: message, createdAt: new Date(), fadeEffect: true }
+          {
+            sender: userName.username,
+            content: message,
+            createdAt: new Date(),
+            fadeEffect: true,
+          },
         ]);
         onSendMessage(message);
       }
@@ -66,20 +76,31 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
     // Navigate to the Tic Tac Toe game page and pass the selected user information
     navigate("/play-tictactoe");
   };
-  
+
   if (loading) {
     return (
       <div className="loading-spinner">
-        <div className="welcome-message">Welcome, please choose one of the connected users to continue</div>
-        <div className="loading-info">In the meantime, we're loading the chat history for you<span className="loading-spinner-icon"><Spin size="large" /></span></div>
+        <div className="welcome-message">
+          Welcome, please choose one of the connected users to continue
+        </div>
+        <div className="loading-info">
+          In the meantime, we're loading the chat history for you
+          <span className="loading-spinner-icon">
+            <Spin size="large" />
+          </span>
+        </div>
       </div>
     );
   }
-  
+
   return (
     <div className="chat-area">
-      <div className="chat-header">Chat with {selectedUser && selectedUser.username}</div>
-      <button className="play-button" onClick={handlePlayClick}>Play Tic Tac Toe</button>
+      <div className="chat-header">
+        Chat with {selectedUser && selectedUser.username}
+      </div>
+      <button className="play-button" onClick={handlePlayClick}>
+        Play Tic Tac Toe
+      </button>
 
       <div className="chat-messages">
         {messages.map((message, index) => (
@@ -89,8 +110,12 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
             type="text"
             text={message.content}
             dateString={formatDateString(message.createdAt)}
-            className={message.sender === userName.username ? "sent-message" : "received-message"}
-            onMessageClick={() => handleMessageSend(message.content)} 
+            className={
+              message.sender === userName.username
+                ? "sent-message"
+                : "received-message"
+            }
+            onMessageClick={() => handleMessageSend(message.content)}
           />
         ))}
       </div>
@@ -102,21 +127,27 @@ export default ChatArea;
 function formatDateString(dateString) {
   const messageDate = new Date(dateString);
   const now = new Date();
-  
+
   // Check if the message was sent today
-  if (messageDate.getDate() === now.getDate() &&
-      messageDate.getMonth() === now.getMonth() &&
-      messageDate.getFullYear() === now.getFullYear()) {
+  if (
+    messageDate.getDate() === now.getDate() &&
+    messageDate.getMonth() === now.getMonth() &&
+    messageDate.getFullYear() === now.getFullYear()
+  ) {
     return formatTimeString(dateString); // Use formatTimeString for today's messages
   } else {
     // Display the date if the message was sent on a different day
-    return `${padZero(messageDate.getDate())}/${padZero(messageDate.getMonth() + 1)}/${messageDate.getFullYear()}`;
+    return `${padZero(messageDate.getDate())}/${padZero(
+      messageDate.getMonth() + 1
+    )}/${messageDate.getFullYear()}`;
   }
 }
 
 function formatTimeString(dateString) {
   const messageDate = new Date(dateString);
-  return `${padZero(messageDate.getHours())}:${padZero(messageDate.getMinutes())}`;
+  return `${padZero(messageDate.getHours())}:${padZero(
+    messageDate.getMinutes()
+  )}`;
 }
 
 function padZero(num) {
