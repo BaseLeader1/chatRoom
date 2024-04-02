@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Board from "./board";
 import GameOver from "./gameOver";
-//import GameState from "./GameState";
+import GameState from "./gameState";
 import Reset from "./reset";
 import Strike from "./strike";
 import io from "socket.io-client";
+import useUserStore from "../zustand/userStore.js";
 
 const socket = io("http://localhost:5001"); // Connect to the Tic Tac Toe game server
 
@@ -52,7 +53,8 @@ function checkWinner(tiles, setStrikeClass, setGameState) {
   }
 }
 
-function TicTacToe({ selectedUser }) {
+function TicTacToe() {
+  const { selectedUser } = useUserStore();
   const [tiles, setTiles] = useState(Array(9).fill(null));
   const [playerTurn, setPlayerTurn] = useState(PLAYER_X);
   const [strikeClass, setStrikeClass] = useState();
@@ -98,7 +100,9 @@ function TicTacToe({ selectedUser }) {
   return (
     <div>
       <h1>Tic Tac Toe</h1>
-      <h2>Playing against: {selectedUser ? selectedUser.username : "No Opponent"}</h2>
+      <h2>
+        Playing against: {selectedUser ? selectedUser.username : "No Opponent"}
+      </h2>
       <Board
         tiles={tiles}
         onTileClick={handleTileClick}

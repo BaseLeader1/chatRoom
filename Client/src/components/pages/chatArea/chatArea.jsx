@@ -5,12 +5,14 @@ import { MessageBox } from "react-chat-elements";
 import useUserStore from "../../zustand/userStore";
 import "react-chat-elements/dist/main.css";
 import socketIOClient from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 import "./chatArea.css";
 
 const ChatArea = ({ selectedUser, onSendMessage }) => {
   const [loading, setLoading] = useState(true);
   const [messages, setMessages] = useState([]);
   const userName = useUserStore((state) => state.userName);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchMessagesAndUpdateState = async () => {
@@ -62,7 +64,7 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
 
   const handlePlayClick = () => {
     // Navigate to the Tic Tac Toe game page and pass the selected user information
-    history.push("/play-tictactoe", { selectedUser });
+    navigate("/play-tictactoe");
   };
   
   if (loading) {
