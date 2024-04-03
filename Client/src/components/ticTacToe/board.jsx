@@ -1,16 +1,17 @@
 import React from "react";
 import Tile from "./tile";
 
-function Board({ tiles, onTileClick, playerTurn, strikeClass, selectedUserName }) {
+function Board({ tiles, onTileClick, playerTurn, strikeClass, selectedUserName, winningTiles }) {
   return (
     <div className="board">
-      {/* <div className="opponent-name">Opponent: {selectedUserName}</div> */}
+       {/* <div className="opponent-name">Opponent: {selectedUserName}</div> */}
       {tiles.map((value, index) => (
         <Tile
           key={index}
           value={value}
-          onClick={() => playerTurn === yourName && onTileClick(index)} 
+          onClick={() => onTileClick(index)}
           playerTurn={playerTurn}
+          isWinningTile={winningTiles.includes(index)} // Check if the tile is part of winning tiles
           className={getClassname(index)}
         />
       ))}

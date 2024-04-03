@@ -55,22 +55,13 @@ const ChatArea = ({ selectedUser, onSendMessage }) => {
     try {
       if (message.trim()) {
         // Check if the message is not empty
-        // Add the new message with a fade-in effect
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          {
-            sender: userName.username,
-            content: message,
-            createdAt: new Date(),
-            fadeEffect: true,
-          },
-        ]);
         onSendMessage(message);
       }
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
+  
 
   const handlePlayClick = () => {
     try {
