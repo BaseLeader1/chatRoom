@@ -105,10 +105,9 @@ export const makeMove = async (req, res) => {
       game.status = winner === "draw" ? "draw" : winner === game.playerX ? "playerXWins" : "playerOWins";
     }
 
-    // Save the updated game
     await game.save();
 
-    // Toggle the turn
+  
     isYourTurn = !isYourTurn;
 
     res.json(game);
